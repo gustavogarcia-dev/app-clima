@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
+interface InputProps {
+    value: string;
+    onChange: (newValue: string) => void;
+}
 
-
-export default function Input({value, onChange}){
-
-    
+const Input: React.FC<InputProps> = ({ value, onChange }) => {    
    
  
 
@@ -17,3 +18,5 @@ export default function Input({value, onChange}){
         </div>
     )
 }
+
+export default Input
