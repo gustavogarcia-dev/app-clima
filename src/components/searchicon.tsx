@@ -1,8 +1,8 @@
 
 
+type SearchIconProps = React.SVGProps<SVGSVGElement>;
 
-
-export default function SearchIcon(props:any) {
+const SearchIcon: React.FC<SearchIconProps> = (props) => {
     return (
       <svg
         {...props}
@@ -21,4 +21,5 @@ export default function SearchIcon(props:any) {
       </svg>
     )
   }
-  
+
+  export default SearchIcon

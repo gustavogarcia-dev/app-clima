@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Input from './input';
-import Button from './button';
 import SearchIcon from './searchicon';
 
 interface Datos {
@@ -28,14 +27,16 @@ const Layout: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [city, setCity] = useState('new york');
   const [result, setResult] = useState<Datos | null>(null);
-  const [error, setError] = useState<string | null>(null); // Estado para manejar errores
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (value: string) => {
     setInputValue(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setCity(inputValue);
+    setInputValue('');
   };
 
   useEffect(() => {
@@ -44,63 +45,64 @@ const Layout: React.FC = () => {
     fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`)
       .then((data) => data.json())
       .then((response) => {
-        // Verificar si la respuesta contiene un error o no
         if (response.error) {
           setError(`La ciudad "${city}" no fue encontrada.`);
-          setResult(null); // Limpiar resultado
+          setResult(null);
         } else {
           setResult(response);
-          setError(null); // Limpiar error si hay un resultado válido
+          setError(null);
         }
       })
       .catch((error) => {
         console.error('Error de petición:', error);
         setError('Hubo un problema al obtener los datos del clima.');
-        setResult(null); // Limpiar resultado en caso de error
+        setResult(null);
       });
   }, [city]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-sky-200 to-sky-400">
-
-      <header className="bg-sky-500 text-white p-4 shadow-md">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <h1 className="text-2xl lg:text-1xl font-bold">Weather App</h1>
-          <div className="flex items-center gap-4">
-            <Input value={inputValue} onChange={handleChange} />
-            <Button icon={<SearchIcon className="w-6 h-6" />} onSubmit={handleSubmit} />
-          </div>
-        </div>
+    <div>
+    <body className="flex flex-col">
+      <header className="bg-sky-500 text-white flex p-2 flex-col md:flex-row shadow-md items-center justify-between">
+        <h1 className="text-xl md:text-2xl font-bold ">Weather App</h1>
+        <form onSubmit={handleSubmit} className="flex items-center w-full md:w-auto">
+          <Input value={inputValue} onChange={handleChange}  />
+          <button
+            type="submit"
+            className="bg-sky-600 hover:bg-sky-700 text-white rounded-md ml-2 my-2 p-2 flex items-center justify-center "
+          >
+            <SearchIcon />
+          </button>
+        </form>
       </header>
 
-      <main className="flex-1 p-4 flex justify-center items-center">
-        {error && <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md"><p className="text-slate-600 text-3xl text-center mb-4">{error}</p></div> }
-        {result && (
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <div className="grid justify-center items-center gap-4">
-              <div className="flex">
-                <img src={result.current.condition.icon} alt="" className="w-17 h-17" />
-                <div className="mx-1">
-                  <h2 className="text-4xl font-bold">{result.current.temp_c}°</h2>
-                  <p className="text-gray-500">{result.current.condition.text}</p>
-                </div>
-              </div>
-
-              <div className="flex-col text-center">
-                <h3 className="font-bold">{result.location.country},</h3>
-                <h4 className="font-semibold">{result.location.region}</h4>
-              </div>
-            </div>
-            <p className="text-center text-gray-500 mt-4">
-              Feels like {result.current.feelslike_c}° . Humidity {result.current.humidity}% Wind{' '}
-              {result.current.wind_kph} km/h.
-            </p>
+      <main className="bg-slate-200 p-4 flex flex-col items-center ">
+        {error && (
+          <div className="bg-white rounded-lg shadow-lg p-4 w-full mb-4">
+            <p className="text-slate-600 text-lg text-center">{error}</p>
           </div>
         )}
-      </main>
-
-      <footer className="w-full bg-sky-500 text-white p-4 text-center">
-        <p>&copy; 2024 Weather App. All rights reserved Gustavo Garcia Dev.</p>
+        {result && (
+          <div className="bg-white rounded-lg shadow-lg p-4 ">
+            <div className="flex flex-col items-center">
+              <img src={result.current.condition.icon} alt={result.current.condition.text} className="w-24 h-24 mb-2" />
+              <h2 className="text-5xl font-bold mb-1">{result.current.temp_c}°</h2>
+              <p className="text-gray-600 text-xl mb-4">{result.current.condition.text}</p>
+              <p className="text-center text-gray-500 text-lg mb-2">
+                Feels like {result.current.feelslike_c}° . Humidity {result.current.humidity}% Wind{' '}
+                {result.current.wind_kph} km/h.
+              </p>
+              <div className="text-center">
+                <h3 className="font-bold text-xl">{result.location.country}</h3>
+                <h4 className="font-semibold text-lg">{result.location.region}</h4>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>      
+    </body>
+      <footer className="p-2 bg-sky-500 text-white text-center">
+        <p className="text-sm">&copy; 2024 Weather App. All rights reserved Gustavo Garcia Dev.</p>
       </footer>
     </div>
   );
