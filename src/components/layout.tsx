@@ -23,6 +23,7 @@ interface Datos {
   };
 }
 
+
 const Layout: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [city, setCity] = useState('new york');
@@ -61,12 +62,11 @@ const Layout: React.FC = () => {
   }, [city]);
 
   return (
-    <div>
-    <body className="flex flex-col">
+    <div className="flex flex-col h-full">
       <header className="bg-sky-500 text-white flex p-2 flex-col md:flex-row shadow-md items-center justify-between">
         <h1 className="text-xl md:text-2xl font-bold ">Weather App</h1>
         <form onSubmit={handleSubmit} className="flex items-center w-full md:w-auto">
-          <Input value={inputValue} onChange={handleChange}  />
+          <Input value={inputValue} onChange={handleChange} />
           <button
             type="submit"
             className="bg-sky-600 hover:bg-sky-700 text-white rounded-md ml-2 my-2 p-2 flex items-center justify-center "
@@ -76,14 +76,14 @@ const Layout: React.FC = () => {
         </form>
       </header>
 
-      <main className="bg-slate-200 p-4 flex flex-col items-center ">
+      <main className="bg-slate-200 p-4 flex flex-col items-center flex-1">
         {error && (
           <div className="bg-white rounded-lg shadow-lg p-4 w-full mb-4">
             <p className="text-slate-600 text-lg text-center">{error}</p>
           </div>
         )}
         {result && (
-          <div className="bg-white rounded-lg shadow-lg p-4 ">
+          <div className="bg-white rounded-lg shadow-lg p-4">
             <div className="flex flex-col items-center">
               <img src={result.current.condition.icon} alt={result.current.condition.text} className="w-24 h-24 mb-2" />
               <h2 className="text-5xl font-bold mb-1">{result.current.temp_c}°</h2>
@@ -99,13 +99,12 @@ const Layout: React.FC = () => {
             </div>
           </div>
         )}
-      </main>      
-    </body>
+      </main>
+
       <footer className="p-2 bg-sky-500 text-white text-center">
         <p className="text-sm">&copy; 2024 Weather App. All rights reserved Gustavo Garcia Dev.</p>
       </footer>
     </div>
   );
 };
-
 export default Layout;
