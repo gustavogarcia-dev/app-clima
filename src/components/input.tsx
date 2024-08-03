@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 interface InputProps {
     value: string;
@@ -6,18 +5,6 @@ interface InputProps {
   }
 
   const Input: React.FC<InputProps> = ({ value, onChange }) => {
-=======
-import React from "react";
-
-interface InputProps {
-    value: string;
-    onChange: (newValue: string) => void;
-}
-
-const Input: React.FC<InputProps> = ({ value, onChange }) => {    
-   
- 
->>>>>>> 6b32269961a4d534121ad46e99d9a9baf19c7d91
 
     return (
         
@@ -30,8 +17,4 @@ const Input: React.FC<InputProps> = ({ value, onChange }) => {
     )
 }
 
-<<<<<<< HEAD
 export default Input;
-=======
-export default Input
->>>>>>> 6b32269961a4d534121ad46e99d9a9baf19c7d91
