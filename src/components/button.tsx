@@ -1,6 +1,11 @@
+import React from "react";
 
+interface ButtonProps {
+  icon?: React.ReactNode; 
+  onSubmit: () => void; 
+}
 
-export default function Button({icon,onSubmit}: any){
+const Button: React.FC<ButtonProps> = ({icon,onSubmit}) =>{
 
   const handleClick = () => {
 
@@ -12,8 +17,10 @@ export default function Button({icon,onSubmit}: any){
       onClick={handleClick}
     >
       {icon && <span className="">{icon}</span>}
-      {/* El icono se renderizará aquí si se proporciona */}
+      
       
     </button>
         )
 }
+
+export default Button

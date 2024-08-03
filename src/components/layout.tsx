@@ -42,7 +42,7 @@ const Layout: React.FC = () => {
   useEffect(() => {
     const apiKey = '9d8b5dcbb98a40fbbe9173748242406';
 
-    fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`)
+    fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`)
       .then((data) => data.json())
       .then((response) => {
         if (response.error) {
